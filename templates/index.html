@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Key Validator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>API Key Validator</h2>
+    <input type="text" id="apiKey" placeholder="Enter your API key">
+    <button onclick="validateApiKey()">Validate</button>
+    <p id="result"></p>
+</div>
+
+<script>
+    function validateApiKey() {
+        var apiKey = document.getElementById("apiKey").value;
+        if(apiKey === "") {
+            document.getElementById("result").innerText = "API key cannot be empty.";
+        } else {
+            document.getElementById("result").innerText = "Validating API key...";
+            // Simulate API key validation process
+            setTimeout(function() {
+                // Here you can add the real validation logic
+                if(apiKey === "valid-key") {
+                    document.getElementById("result").innerText = "API key is valid.";
+                } else {
+                    document.getElementById("result").innerText = "API key is invalid.";
+                }
+            }, 1000);
+        }
+    }
+</script>
+
+</body>
+</html>
