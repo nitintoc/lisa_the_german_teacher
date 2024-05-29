@@ -1,12 +1,12 @@
-from flask import Flask, request, jsonify, send_from_directory
-from authentication import authenticate
+from flask import Flask, request, jsonify, send_from_directory, render_template
+from AuthenticationCheck.authentication import authenticate
 import os
 
 app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def serve_index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return render_template('index.html')
 
 @app.route('/authenticate', methods=['POST'])
 def authenticate_user():
