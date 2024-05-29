@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Key Validator</title>
+    <title>API Key Authentication</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,59 +14,67 @@
             background-color: #f0f0f0;
         }
         .container {
-            background-color: #fff;
+            background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         input[type="text"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            box-sizing: border-box;
         }
         button {
             padding: 10px 20px;
-            background-color: #28a745;
-            color: #fff;
+            background-color: #007BFF;
+            color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>API Key Authentication</h1>
+        <input type="text" id="apiKey" placeholder="Enter your API key">
+        <button onclick="verifyApiKey()">Verify</button>
+        <p id="result"></p>
+    </div>
+    
+    <script>
+        function verifyApiKey() {
+            const apiKey = document.getElementById('apiKey').value;
+            const resultElement = document.getElementById('result');
 
-<div class="container">
-    <h2>API Key Validator</h2>
-    <input type="text" id="apiKey" placeholder="Enter your API key">
-    <button onclick="validateApiKey()">Validate</button>
-    <p id="result"></p>
-</div>
-
-<script>
-    function validateApiKey() {
-        var apiKey = document.getElementById("apiKey").value;
-        if(apiKey === "") {
-            document.getElementById("result").innerText = "API key cannot be empty.";
-        } else {
-            document.getElementById("result").innerText = "Validating API key...";
-            // Simulate API key validation process
-            setTimeout(function() {
-                // Here you can add the real validation logic
-                if(apiKey === "valid-key") {
-                    document.getElementById("result").innerText = "API key is valid.";
-                } else {
-                    document.getElementById("result").innerText = "API key is invalid.";
+            fetch('/authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ api_key: apiKey }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    resultElement.textContent = data.message;
+                    resultElement.style.color = 'green';
+                } else if (data.error) {
+                    resultElement.textContent = data.error;
+                    resultElement.style.color = 'red';
                 }
-            }, 1000);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                resultElement.textContent = 'An error occurred. Please try again.';
+                resultElement.style.color = 'red';
+            });
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
